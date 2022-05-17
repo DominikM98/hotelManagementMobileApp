@@ -1,9 +1,32 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, TouchableOpacity, TextInput } from 'react-native';
+import {StyleSheet, Text, View, Button, TouchableOpacity, TextInput, BackHandler, Alert} from 'react-native';
 
 
 
 export default class MenuScreen extends React.Component {
+
+    backAction = () => {
+        Alert.alert("Hold on!", "Are you sure you want to go back?", [
+            {
+                text: "Cancel",
+                onPress: () => null,
+                style: "cancel"
+            },
+            { text: "YES", onPress: () => BackHandler.exitApp() }
+        ]);
+        return true;
+    };
+
+    componentDidMount() {
+        this.backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            this.backAction
+        );
+    }
+
+    componentWillUnmount() {
+        this.backHandler.remove();
+    }
 
    render() {
       return (
@@ -40,7 +63,7 @@ export default class MenuScreen extends React.Component {
 
            <View style={styles.logOutView}>
                 <TouchableOpacity style={styles.button}>
-                     <Text style={styles.text}>Log out</Text>
+                     <Text style={styles.text} onPress={ this.backAction}>Log out</Text>
                 </TouchableOpacity>
             </View>
 

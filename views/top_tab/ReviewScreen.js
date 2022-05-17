@@ -31,11 +31,11 @@ export default class ReviewScreen extends React.Component {
                  autoCapitalize = "none"
                  color = "white"
                  numberOfLines= {4}
-                 nChangeText = {this.handleEmail}/>
+                 nChangeText = {this.handleMore}/>
 
 
             <TouchableOpacity style = {styles.sendButton} >
-                 <Text style = {styles.sendTextButton}> Log In </Text>
+                 <Text style = {styles.sendTextButton}> Send </Text>
             </TouchableOpacity>
          </View>
       );

@@ -1,20 +1,41 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, TouchableOpacity, TextInput, Image } from 'react-native';
+import {StyleSheet, Text, View, Button, TouchableOpacity, TextInput, Image, Alert} from 'react-native';
 
 export default class Login extends React.Component {
-    state = {
-      email: '',
-      password: ''
-   }
-   handleEmail = (text) => {
-      this.setState({ email: text })
-   }
-   handlePassword = (text) => {
-      this.setState({ password: text })
-   }
-   login = (email, pass) => {
-      alert('email: ' + email + ' password: ' + pass)
-   }
+
+    constructor(props){
+        super(props)
+        this.state = {
+            email: '',
+            password: '',
+            errorStatus: true,
+        }
+    }
+
+    onEnterEmail = (email) => {
+        if (email.trim() != 0){
+            this.setState({email : email, errorStatus : true})
+        }else{
+            this.setState({email : email, errorStatus : false})
+        }
+    }
+
+    onEnterPass = (password) => {
+        if (password.trim() != 0){
+            this.setState({password: password, errorStatus : true})
+        }else{
+            this.setState({password: password, errorStatus : false})
+        }
+    }
+
+    buttonClickListener = () =>{
+        const { email, password }  = this.state ;
+        if (email == "" || password == "") {
+            Alert.alert("Please enter correct data");
+        }else{
+            this.props.navigation.navigate('Menu')
+        }
+    }
 
    render() {
       return (
@@ -28,7 +49,7 @@ export default class Login extends React.Component {
                 placeholderTextColor = "#999999"
                 autoCapitalize = "none"
                 color = "white"
-                onChangeText = {this.handleEmail}/>
+                onChangeText = {email => this.onEnterEmail(email)}/>
 
             <Text style={styles.informationText2}> Password: </Text>
             <TextInput style = {styles.inputPassword}
@@ -37,9 +58,9 @@ export default class Login extends React.Component {
                 autoCapitalize = "none"
                 color = "white"
                // secureTextEntry = {true}
-                onChangeText = {this.handlePassword}/>
+                onChangeText = {password => this.onEnterPass(password)}/>
 
-            <TouchableOpacity style = {styles.loginButton} onPress={ () => this.props.navigation.navigate('Menu')}>
+            <TouchableOpacity style = {styles.loginButton} onPress={ this.buttonClickListener}>
                   <Text style = {styles.loginButtonText}> Log In </Text>
             </TouchableOpacity>
          </View>
