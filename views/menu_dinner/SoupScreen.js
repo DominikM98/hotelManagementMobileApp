@@ -1,96 +1,149 @@
-import React from 'react';
-import{ View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import{ View, Text, StyleSheet, TouchableOpacity, FlatList, ScrollView} from 'react-native';
+import { Icon } from 'react-native-elements'
 
-export default class SoupScreen extends React.Component{
+export default function SoupScreen ({navigation, route}){
+  const [error, setError] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [items, setItems] = useState([]);
+  const r = [];
+  const [count, setCount] = useState(0);
 
-    render(){
-        return(
-            <View style={styles.container}>
-                <Text style={styles.informationText} > Choose your soup </Text>
+  useEffect(() => {
+    fetch("http://localhost:3000/restaurant/showItems")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          setIsLoaded(true);
+          for(var i = 0; i < result.length; i++){
+            if((result[i].type_of_product == 'Soup') == true){
+              r.push(result[i]); 
+            }
+          }
+          result = r;
+          setItems(result);
+        },
+        (error) => {
+          setIsLoaded(true);
+          setError(error);
+        }
+      )
+  }, )
 
-                <TouchableOpacity style={styles.positionSoup}>
-                    <Text style={styles.nameSoup}> Chicken soup                          <Text style={styles.priceSoup}> 10.00 PLN </Text> </Text>
-                    <Text style={styles.descriptionSoup}> Vegetable - chicken noodle soup                <Text style={styles.weightSoup}> Weight: 200 g </Text> </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.positionSoup}>
-                    <Text style={styles.nameSoup}> Brown onion mutton soup    <Text style={styles.priceSoup}> 15.00 PLN </Text> </Text>
-                    <Text style={styles.descriptionSoup}> Mutton, onion caramelized spicy soup      <Text style={styles.weightSoup}> Weight: 150 g </Text> </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.positionSoup}>
-                    <Text style={styles.nameSoup}> Minestrone chicken soup     <Text style={styles.priceSoup}> 20.00 PLN </Text> </Text>
-                    <Text style={styles.descriptionSoup}> A thick italian soup made with {"\n"} veg/chicken and pasta                                  <Text style={styles.weightSoup}> Weight: 150 g </Text> </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.positionSoup}>
-                     <Text style={styles.nameSoup}> Garden soup                           <Text style={styles.priceSoup}> 12.00 PLN </Text> </Text>
-                     <Text style={styles.descriptionSoup}> Clear soup with choice of {"\n"} veg/chicken/mutton                                     <Text style={styles.weightSoup}> Weight: 140 g </Text> </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.positionSoup}>
-                      <Text style={styles.nameSoup}> Crab and pepper soup          <Text style={styles.priceSoup}> 30.00 PLN </Text> </Text>
-                      <Text style={styles.descriptionSoup}> Pepper flavoured with crab                         <Text style={styles.weightSoup}> Weight: 170 g </Text> </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.positionSoup}>
-                     <Text style={styles.nameSoup}> Seafood coconut                   <Text style={styles.priceSoup}> 25.00 PLN </Text> </Text>
-                     <Text style={styles.descriptionSoup}> Fusion soup with coconut {"\n"} and  seafood mix                                           <Text style={styles.weightSoup}> Weight: 170 g </Text> </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.positionSoup}>
-                     <Text style={styles.nameSoup}> Tomatoe soup                         <Text style={styles.priceSoup}> 11.00 PLN </Text> </Text>
-                     <Text style={styles.descriptionSoup}> Tomatoe soup with pasta/rice                    <Text style={styles.weightSoup}> Weight: 170 g </Text> </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.positionSoup}>
-                     <Text style={styles.nameSoup}> Soup of a day                          <Text style={styles.priceSoup}> 12.00 PLN </Text> </Text>
-                     <Text style={styles.descriptionSoup}> Ask the staff                                                   <Text style={styles.weightSoup}> Weight: 170 g </Text> </Text>
-                </TouchableOpacity>
-            </View>
-        )
+  if (error) {
+    return (console.log("er:", error.message),
+    <View style={styles.containerError}>
+      <TouchableOpacity style={styles.position} >
+        <Text style={styles.messageError}>The server stopped working temporarily</Text>
+        <Text style={styles.titleError}>Please try again later</Text>
+      </TouchableOpacity>
+    </View>);
+  } else if (!isLoaded) {
+    return isLoaded ? (console.log("is", isLoaded), <Text>TRUE</Text>) : (console.log("i:", items),  <Text>i: {items} </Text>)
+  } else {
+    return ( console.log(),
+      <View style={styles.container}>
+      <ScrollView style={styles.scrollView}>
+        <View style={styles.rowViewDetails}>
+          <Icon name='arrow-back' color="white" style={styles.icon} onPress={() => navigation.navigate('Restaurant')}/>
+          <Text style={styles.informationText} > Choose your soup </Text>
+          <Icon name='receipt' color='white' style={styles.icon} onPress={() => navigation.navigate('Cart')}/>
+        </View>
+            {items.map(item => (
+              <TouchableOpacity 
+                style={styles.position} 
+                onPress={() => navigation.navigate('MoreData', 
+                {product_name: item.product_name,
+                 product_price: item.product_price,
+                 ingredients: item.ingredients,
+                 product_weight: item.product_weight,
+                 allergens: item.allergens,
+                 min_quantity: item.min_quantity,
+                 max_quantity: item.max_quantity}) }>
+                <View style={styles.nameAndPrice}>
+                  <Text style={styles.name}> {item.product_name} </Text>    
+                  <Text style={styles.price}> {item.product_price} PLN </Text> 
+                </View>
+                <View style={styles.descriptionAndWeight}>
+                  <Text style={styles.description}> {item.ingredients} </Text>    
+                  <Text style={styles.weight}> {item.product_weight} ml </Text> 
+                </View>
+              </TouchableOpacity>
+            ))}
+      </ScrollView>
+      </View>);
     }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        backgroundColor: '#1c1e2b'
-    },
-    informationText:{
-        color: 'white',
-        marginTop: 15,
-        fontSize: 20,
-        fontWeight: 'bold'
-    },
-    positionSoup: {
-        backgroundColor: '#4d4dec',
-        borderRadius: 5,
-        marginTop: 15,
-        width: '90%'
-    },
-    nameSoup: {
-        color: 'white',
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginLeft: 10,
-    },
-    priceSoup: {
-        color: 'white',
-        fontSize: 18,
-
-    },
-    descriptionSoup:{
-        color: 'white',
-        fontSize: 14,
-        marginLeft: 10
-    },
-    weightSoup: {
-        color: 'white',
-        fontSize: 11,
-
-    }
-
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: '#1c1e2b'
+  },
+  rowViewDetails:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    margin:1,
+    width:300
+  },
+  informationText:{
+    color: 'white',
+    marginTop: 15,
+    fontSize: 20,
+    fontWeight: 'bold'
+  },
+  position: {
+    backgroundColor: '#4d4dec',
+    borderRadius: 5,
+    marginTop: 15,
+    width: '90%'
+  },
+  nameAndPrice:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding:5
+  },
+  name: {
+    fontWeight: 'bold',
+    color: 'white',
+    fontSize: 17,
+  },
+  price: {
+    fontWeight: 'bold',
+    color: 'white',
+    fontSize: 15,
+  },
+  descriptionAndWeight: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingLeft: 5,
+    paddingRight: 5,
+    paddingBottom: 5
+  },
+  description:{
+    color: 'white',
+    fontSize: 11,
+    width:200
+  },
+  weight: {
+    color: 'white',
+    fontSize: 11,
+  },
+  allergensView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingLeft: 5,
+    paddingRight: 5,
+    paddingBottom: 5
+  },
+  allergens:{
+    color: 'white',
+  },
+  icon:{
+    marginTop:15
+  },
+  scrollView:{
+    marginHorizontal: 20
+  }
 });
-

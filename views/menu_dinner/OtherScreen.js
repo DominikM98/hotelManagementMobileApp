@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import{ View, Text, StyleSheet, TouchableOpacity, FlatList,ScrollView} from 'react-native';
+import{ View, Text, StyleSheet, TouchableOpacity, FlatList, ScrollView} from 'react-native';
 import { Icon } from 'react-native-elements'
 
-export default function DessertScreen ({navigation, route}){
+export default function OtherScreen ({navigation, route}){
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
@@ -16,7 +16,7 @@ export default function DessertScreen ({navigation, route}){
         (result) => {
           setIsLoaded(true);
           for(var i = 0; i < result.length; i++){
-            if((result[i].type_of_product == 'Alcohol') == true){
+            if((result[i].type_of_product == 'Other') == true){
               r.push(result[i]); 
             }
           }
@@ -46,7 +46,7 @@ export default function DessertScreen ({navigation, route}){
       <ScrollView style={styles.scrollView}>
         <View style={styles.rowViewDetails}>
           <Icon name='arrow-back' color="white" style={styles.icon} onPress={() => navigation.navigate('Restaurant')}/>
-          <Text style={styles.informationText} > Choose your alcohol </Text>
+          <Text style={styles.informationText} > Choose your additionals </Text>
           <Icon name='receipt' color='white' style={styles.icon} onPress={() => navigation.navigate('Cart')}/>
         </View>
             {items.map(item => (
@@ -144,6 +144,6 @@ const styles = StyleSheet.create({
     marginTop:15
   },
   scrollView:{
-    marginHorizontal: 20
+    marginHorizontal:20
   }
 });

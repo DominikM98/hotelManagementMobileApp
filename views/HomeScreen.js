@@ -1,25 +1,22 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
 
-export default class HomeScreen extends React.Component {
+export default function HomeScreen ({navigation}) {
 
-
-   render() {
-      return (
-         <View style={styles.container}>
-            <View style={styles.loginView}>
-                <TouchableOpacity style={styles.loginButton} onPress={ () => this.props.navigation.navigate('Login')}>
-                     <Text style={styles.text}>Log In</Text>
-                </TouchableOpacity>
-            </View>
-            <View style={styles.registerView}>
-                <TouchableOpacity style={styles.registerButton} onPress={ () => this.props.navigation.navigate('Register')} >
-                        <Text style={styles.text}>Register</Text>
-                 </TouchableOpacity>
-            </View>
-         </View>
-      );
-   }
+  return (
+    <View style={styles.container}>
+      <View style={styles.loginView}>
+        <TouchableOpacity style={styles.loginButton} onPress={ () => navigation.navigate('Login')}>
+          <Text style={styles.text}>Log In</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.registerView}>
+        <TouchableOpacity style={styles.registerButton} onPress={ () => navigation.navigate('Register')} >
+          <Text style={styles.text}>Register</Text>
+        </TouchableOpacity>
+    </View>
+  </View>
+  );
 }
 
 

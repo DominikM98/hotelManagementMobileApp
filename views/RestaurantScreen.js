@@ -1,46 +1,47 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
+import { Icon } from 'react-native-elements'
 
-export default class RestaurantScreen extends React.Component {
+export default function Restaurant ({navigation}) {
+  
+  return (
+    <View style={styles.container}>
+      <View style={styles.rowViewDetails}>
+        <Icon name='arrow-back' color="white" style={styles.icon} onPress={() => navigation.goBack()}/>
+        <Text style={styles.informationText} > Choose your appetizer </Text>
+        <Text></Text>
+      </View>
 
-   render() {
-      return (
-          <View style={styles.container}>
-            <Text style={styles.informationText}> Welcome to the restaurant </Text>
-            <Text style={styles.informationText2}> Please choose your food </Text>
+      <Text style={styles.informationText2}> Please choose your food </Text>
+          
+      <TouchableOpacity style={styles.appetizer} onPress={ () => navigation.navigate('Appetizer')} >
+        <Text style={styles.text}> Appetizer </Text>
+      </TouchableOpacity>
 
+      <TouchableOpacity style={styles.soup} onPress={ () => navigation.navigate('Soup')}>
+        <Text style={styles.text}> Soup </Text>
+      </TouchableOpacity>
 
-            <TouchableOpacity style={styles.appetizer} onPress={ () => this.props.navigation.navigate('Appetizer')} >
-                 <Text style={styles.text}> Appetizer </Text>
-            </TouchableOpacity>
+      <TouchableOpacity style={styles.mainCourse} onPress={ () => navigation.navigate('MainCourse')}>
+        <Text style={styles.text}>  Main Course </Text>
+      </TouchableOpacity>
 
-            <TouchableOpacity style={styles.soup} onPress={ () => this.props.navigation.navigate('Soup')}>
-                 <Text style={styles.text}> Soup </Text>
-            </TouchableOpacity>
+      <TouchableOpacity style={styles.dessert} onPress={ () => navigation.navigate('Dessert')}>
+        <Text style={styles.text}> Dessert </Text>
+      </TouchableOpacity>
 
-            <TouchableOpacity style={styles.mainCourse} onPress={ () => this.props.navigation.navigate('MainCourse')}>
-                 <Text style={styles.text}>  Main Course </Text>
-            </TouchableOpacity>
+      <TouchableOpacity style={styles.drinks} onPress={ () => navigation.navigate('Drink')}>
+        <Text style={styles.text}> Drink </Text>
+      </TouchableOpacity>
 
-            <TouchableOpacity style={styles.dessert} onPress={ () => this.props.navigation.navigate('Dessert')}>
-                <Text style={styles.text}> Dessert </Text>
-            </TouchableOpacity>
+      <TouchableOpacity style={styles.alcohols} onPress={ () => navigation.navigate('Alcohol')}>
+        <Text style={styles.text}> Alcohol </Text>
+      </TouchableOpacity>
 
-            <TouchableOpacity style={styles.drinks} onPress={ () => this.props.navigation.navigate('Drink')}>
-                 <Text style={styles.text}> Drink </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.alcohols} onPress={ () => this.props.navigation.navigate('Alcohol')}>
-                 <Text style={styles.text}> Alcohol </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.discount} onPress={ () => this.props.navigation.navigate('Discount')}>
-                 <Text style={styles.text}> Discount </Text>
-            </TouchableOpacity>
-
-          </View>
-      );
-   }
+      <TouchableOpacity style={styles.discount} onPress={ () => navigation.navigate('Cart')}>
+        <Text style={styles.text}> Cart </Text>
+      </TouchableOpacity>
+    </View>);
 }
 
 
@@ -49,6 +50,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#1c1e2b',
     alignItems: 'center'
+  },
+  rowViewDetails:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    margin:1,
+    width:300
+  },
+  icon: {
+    marginTop: 10
   },
   informationText:{
     marginTop: 10,
