@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+    import React, {useState, useEffect} from 'react';
 import {StyleSheet, Text, View, Button, TouchableOpacity, TextInput, Alert} from 'react-native'
 import { Icon } from 'react-native-elements'
 
@@ -122,7 +122,7 @@ export default function ForgotPasswordScreen({navigation}){
             />
         : 
           <TextInput style = {styles.inputPassWrong}
-          value="ERROR: BAD DATA"
+          value="ERROR: INVALID DATA"
           autoCapitalize = "none"
           color = "white"
           editable = {false}

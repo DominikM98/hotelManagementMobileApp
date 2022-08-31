@@ -272,6 +272,7 @@ export default function CreateReservationScreen({navigation}){
             autoCapitalize = "none"
             color = "white"
             keyboardType="numeric"
+            value = {placeholderNumber}
             onChangeText = {phone => setNoPhone(phone)}/>
         </View>
 

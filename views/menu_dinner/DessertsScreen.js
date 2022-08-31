@@ -47,7 +47,7 @@ export default function DessertScreen ({navigation, route}){
         <View style={styles.rowViewDetails}>
           <Icon name='arrow-back' color="white" style={styles.icon} onPress={() => navigation.navigate('Restaurant')}/>
           <Text style={styles.informationText} > Choose your dessert </Text>
-          <Icon name='receipt' color='white' style={styles.icon} onPress={() => navigation.navigate('Cart')}/>
+          <Text></Text>
         </View>
             {items.map(item => (
               <TouchableOpacity 

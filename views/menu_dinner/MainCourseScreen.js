@@ -47,7 +47,7 @@ export default function MainCourseScreen ({navigation, route}){
         <View style={styles.rowViewDetails}>
           <Icon name='arrow-back' color="white" style={styles.icon} onPress={() => navigation.navigate('Restaurant')}/>
           <Text style={styles.informationText} > Choose your main dishes </Text>
-          <Icon name='receipt' color='white' style={styles.icon} onPress={() => navigation.navigate('Cart')}/>
+          <Text></Text>
         </View>
             {items.map(item => (
               <TouchableOpacity 
